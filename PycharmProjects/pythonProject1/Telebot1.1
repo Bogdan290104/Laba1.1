@@ -1,0 +1,45 @@
+import telebot
+import random
+bot=telebot.TeleBot('5102418321:AAEA01ZdV3Dv2rAk1v41M3NUGSd5kWO8IbU')
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    bot.send_message(message.chat.id, 'Привет! ')
+
+@bot.message_handler(commands=["help"])
+def help(message):
+    bot.send_message(message.from_user.id, " Привет! Я умею отвечать на сообщения и на некоторые команды; \n\n Привет! Отправляет сообщение приветствия;\n\n Привет: Реагирует на это сообщение также, как и на команду ;\n /flip: Бот подбрасывает монетку и выдаёт результат (орёл или решка); \n /cube: Бот подбрасывает кубик и говорит какое число от 1 до 6 выпало; \n /roll: Бот выдумывает случайное число в диапозоне от 1 до 100 и отсылает его вам!")
+
+@bot.message_handler(commands=["flip"])
+def flip(message):
+    side = random.randint(0, 1)
+    if side == 0:
+        bot.send_message(message.from_user.id, "Решка")
+    elif side == 1:
+        bot.send_message(message.from_user.id, "Орел")
+
+@bot.message_handler(commands=["cube"])
+def cube(message):
+            side = random.randint(1, 6)
+            bot.send_message(message.from_user.id, side)
+
+@bot.message_handler(commands=["roll"])
+def roll(message):
+        side = random.randint(1, 100)
+        bot.send_message(message.from_user.id, side)
+
+@bot.message_handler(content_types=['text'])
+def get_text_messages(message):
+    if message.text.lower() == "привет":
+        bot.send_message(message.from_user.id, "Привет!")
+    elif message.text.lower() == "богдан":
+        bot.send_message(message.from_user.id, "Богом дан =D")
+    elif message.text.lower() == "pudge":
+        bot.send_message(message.from_user.id, "Свежее мясо =D")
+    elif message.text.lower().find("gym?") != -1:
+        bot.send_message(message.from_user.id, "Gym - это империя")
+    elif message.text.lower().find("глаза") != -1:
+        bot.send_message(message.from_user.id, "Глаза глаза они по всюду")
+    else:
+        bot.send_message(message.from_user.id, "Я вас не понимаю :(" )
+bot.polling(none_stop=True, interval=0)
